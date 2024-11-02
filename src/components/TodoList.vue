@@ -1,4 +1,5 @@
 <script setup>
+import CountTodos from './CountTodos.vue'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps({
@@ -56,39 +57,42 @@ onMounted(() => {
 </script>
 
 <template>
-  <ul>
-    <li v-for="todo in props.todos" :key="todo.id">
-      <input
-        :id="todo.id"
-        type="checkbox"
-        :checked="todo.isCompleted"
-        @change="toggleCompleted(todo)"
-      />
-      <label
-        v-if="!editModeStatus[todo.id]"
-        :class="{ completed: todo.isCompleted }"
-        :for="todo.id"
-        >{{ todo.text }}</label
-      >
-      <input v-if="editModeStatus[todo.id]" type="text" v-model="editText" />
+  <div style="padding: 10px">
+    <ul style="padding-left: 0px">
+      <li v-for="todo in props.todos" :key="todo.id">
+        <input
+          :id="todo.id"
+          type="checkbox"
+          :checked="todo.isCompleted"
+          @change="toggleCompleted(todo)"
+        />
+        <label
+          v-if="!editModeStatus[todo.id]"
+          :class="{ completed: todo.isCompleted }"
+          :for="todo.id"
+          >{{ todo.text }}</label
+        >
+        <input v-if="editModeStatus[todo.id]" type="text" v-model="editText" />
 
-      <button
-        v-if="!editModeStatus[todo.id]"
-        type="button"
-        @click="editTodo(todo)"
-      >
-        編輯
-      </button>
-      <button
-        v-if="editModeStatus[todo.id]"
-        type="button"
-        @click="saveTodo(todo)"
-      >
-        完成
-      </button>
-      <button type="button" @click="handleDelete(todo.id)">刪除</button>
-    </li>
-  </ul>
+        <button
+          v-if="!editModeStatus[todo.id]"
+          type="button"
+          @click="editTodo(todo)"
+        >
+          編輯
+        </button>
+        <button
+          v-if="editModeStatus[todo.id]"
+          type="button"
+          @click="saveTodo(todo)"
+        >
+          完成
+        </button>
+        <button type="button" @click="handleDelete(todo.id)">刪除</button>
+      </li>
+    </ul>
+    <CountTodos />
+  </div>
 </template>
 
 <style scoped>

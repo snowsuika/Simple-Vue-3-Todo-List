@@ -3,7 +3,7 @@ import TodoList from './components/TodoList.vue'
 import AddTodo from './components/AddTodo.vue'
 import FilterTodos from './components/FilterTodos.vue'
 
-import { ref, computed } from 'vue'
+import { ref, computed, provide } from 'vue'
 
 const loadTodos = () => {
   try {
@@ -25,13 +25,6 @@ const filteredTodos = computed(() => {
       return todos.value.filter(todo => todo.isCompleted)
     default:
       return todos.value
-  }
-})
-
-const todoStatusCount = computed(() => {
-  return {
-    done: todos.value.filter(todo => todo.isCompleted).length,
-    pending: todos.value.filter(todo => !todo.isCompleted).length,
   }
 })
 
@@ -57,6 +50,16 @@ const handleUpdateTodo = updatedTodo => {
   )
   saveToStorage()
 }
+
+const todoStatusCount = computed(() => {
+  return {
+    done: todos.value.filter(todo => todo.isCompleted).length,
+    pending: todos.value.filter(todo => !todo.isCompleted).length,
+  }
+})
+provide('todoStatusCount', {
+  todoStatusCount,
+})
 </script>
 
 <template>
@@ -70,7 +73,5 @@ const handleUpdateTodo = updatedTodo => {
       @delete-todo="handleDeleteTodo"
       :todos="filteredTodos"
     />
-
-    已完成 {{ todoStatusCount.done }} 個
   </div>
 </template>
