@@ -5,6 +5,13 @@ import FilterTodos from './components/FilterTodos.vue'
 import { useTodos } from './composables/useTodos'
 import { provide } from 'vue'
 
+import { useThemeStore } from './stores/theme'
+import ThemeSwitcher from './components/ThemeSwitcher.vue'
+
+// 初始化主題
+const theme = useThemeStore()
+document.documentElement.classList.toggle('dark', theme.isDark)
+
 const {
   //  data
   filteredTodos,
@@ -27,6 +34,8 @@ provide('todoStatusCount', {
 
 <template>
   <div>
+    <ThemeSwitcher />
+
     <FilterTodos @update:filter="setFilter" />
     <AddTodo @add-todo="addTodo" />
     <TodoList
