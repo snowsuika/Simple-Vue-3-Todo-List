@@ -1,12 +1,10 @@
 @import './base.css';
 
-// default
 :root {
   --background-color: #ffffff;
   --text-color: #333333;
 }
 
-// dark mode
 :root.dark {
   --background-color: #1a1a1a;
   --text-color: #ffffff;
